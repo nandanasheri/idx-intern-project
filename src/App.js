@@ -1,24 +1,46 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useState} from 'react';
+import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
+
+import NavBar from "./components/NavBar";
+import SearchBar from "./components/SearchBar";
+import PropertyList from "./components/PropList";
+import HomePage from "./pages/HomePage";
+import ResultsPage from "./pages/ResultsPage";
+import Footer from "./components/Footer";
+import "./App.css";
 
 function App() {
+  const [results, setResults]=useState([]);
+  const properties=[
+    {
+      // temp data for now
+      title: "Luxury Home in Los Angeles",
+      location: "Los Angeles, CA",
+      price: 2200000,
+    }
+  ]
+  const handleSearch = (query) =>
+  {
+    console.log("Searching for:", query);
+
+  const data= ["hello", "los angeles"];
+
+  const filtered=data.filter((item) => item.toLowerCase().includes(query.toLowerCase()));
+  setResults(filtered);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <Router>
+    <div className="app-container">
+      <NavBar />
+      <Routes>
+          <Route path="/" element={<HomePage onSearch={handleSearch} />}/>
+          <Route path="/results" element={<ResultsPage results={results} />}/>
+      </Routes>
+      
+      <Footer/>
     </div>
+    </Router>
   );
 }
 
