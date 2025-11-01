@@ -5,7 +5,7 @@
 // ============================================
 
 // Database credentials
-$dbHost = 'localhost';
+$dbHost = 'vps42922.inmotionhosting.com';
 $dbName = 'boxgra6_cali';
 $dbUser = 'boxgra6_sd';
 $dbPass = 'Real_estate650$';
