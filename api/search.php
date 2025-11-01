@@ -5,7 +5,9 @@
 // ============================================
 
 // Database credentials
-$dbHost = 'vps42922.inmotionhosting.com';
+// This is for local connection specifically - on CPanel - access using localhost
+// $dbHost = 'vps42922.inmotionhosting.com';
+$dbHost = 'localhost';
 $dbName = 'boxgra6_cali';
 $dbUser = 'boxgra6_sd';
 $dbPass = 'Real_estate650$';
