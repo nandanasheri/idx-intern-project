@@ -1,7 +1,7 @@
 <?php
 // ============================================
-// Simple Real Estate REST API
-// Endpoint: /api.php?endpoint=listings
+//  Search API
+// Endpoint: /search.php
 // ============================================
 
 // Database credentials
