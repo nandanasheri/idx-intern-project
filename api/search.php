@@ -18,18 +18,43 @@ try {
     $pdo = new PDO("mysql:host=$dbHost;dbname=$dbName;charset=utf8mb4", $dbUser, $dbPass);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // Fetch 10 listings - with no filters - this is mainly for testing, we can fetch more in prod
-    $stmt = $pdo->prepare("
-        SELECT 
+    // Dynamically build the query depending on what parameters have been given
+    $stmt = "SELECT 
             id, L_Address, L_Zip, L_City, L_State, L_SystemPrice, ListAgentFullName, LO1_OrganizationName, L_Photos, LotSizeSquareFeet
         FROM rets_property
-        WHERE L_Status = :status
-        ORDER BY ListingContractDate DESC
-        LIMIT 10
-    ");
-    $stmt->execute(['status' => "Active"]);
-    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        WHERE L_Status = :status";
     
+    $params = [];
+
+    $params[':status'] = "Active";
+
+    if (!empty($_GET['q'])) {
+        $stmt .= " AND (L_City LIKE :q1 OR L_Address LIKE :q2 OR L_Zip LIKE :q3 OR SubdivisionName LIKE :q4)";
+        // Add the wildcard here - % for LIKE
+        $params[':q1'] = "%{$_GET['q']}%";
+        $params[':q2'] = "%{$_GET['q']}%";
+        $params[':q3'] = "%{$_GET['q']}%";
+        $params[':q4'] = "%{$_GET['q']}%";
+    }
+
+    if (!empty($_GET['min_price'])) {
+        $stmt .= " AND L_SystemPrice >= :min_price";
+        $params[':min_price'] = $_GET['min_price'];
+    }
+
+    if (!empty($_GET['max_price'])) {
+        $stmt .= " AND L_SystemPrice <= :max_price";
+        $params[':max_price'] = $_GET['max_price'];
+    }
+
+    $stmt .= " ORDER BY ListingContractDate DESC LIMIT 10";
+    
+    // Fetch 10 listings - this is mainly for testing, we can fetch more in prod
+    $final_sql_stmt = $pdo->prepare($stmt);
+
+    $final_sql_stmt->execute($params);
+    $results = $final_sql_stmt->fetchAll(PDO::FETCH_ASSOC);
+
     // Debugging - print out all results returned
     // print_r($results);
     $formatted_results = [];
