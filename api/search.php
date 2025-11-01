@@ -10,6 +10,29 @@ $dbName = 'boxgra6_cali';
 $dbUser = 'boxgra6_sd';
 $dbPass = 'Real_estate650$';
 
+/*
+SEARCH ENDPOINT : returns property listings that match certain queries and filters
+Example Endpoint : http://localhost:8000/api/search.php?q=La%20Jolla&max_price=2000000
+Return JSON : 
+{
+    "status": "success",
+    "count": 10,
+    "data": [
+        {
+            "id": 52972,
+            "address": "8040 Girard Ave 1",
+            "city": "La Jolla",
+            "state": "CA",
+            "zipcode": "92037",
+            "full_addr": "8040 Girard Ave 1, La Jolla, CA, 92037",
+            "price": "1,499,000.00",
+            "sqft": "3094.00",
+            "agent": "Michelle Dykstra",
+            "organization": "Compass",
+            "display_img": "https:\/\/api-trestle.corelogic.com\/trestle\/Media\/Property\/PHOTO-Jpeg\/1137608070\/1\/ODU2My84NTc1LzIw\/MjAvMTcwMjMvMTc1OTQyMDUwNA\/S8qbdVe53g1vJ1aKDpg62yydvbykwfnQ5L8tgpXnWdo"
+        }, ......]
+*/
+
 // Set response type to JSON
 header('Content-Type: application/json; charset=utf-8');
 
