@@ -11,7 +11,7 @@ $dbUser = 'boxgra6_sd';
 $dbPass = 'Real_estate650$';
 
 /*
-SEARCH ENDPOINT : returns property listings that match certain queries and filters
+SEARCH ENDPOINT : returns property listings that match certain queries and filters. currently can query by city, subdivision, address, min_price and max_price
 Example Endpoint : http://localhost:8000/api/search.php?q=La%20Jolla&max_price=2000000
 Return JSON : 
 {
