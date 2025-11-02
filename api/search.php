@@ -6,8 +6,8 @@
 
 // Database credentials
 // This is for local connection specifically - on CPanel - access using localhost
-// $dbHost = 'vps42922.inmotionhosting.com';
-$dbHost = 'localhost';
+$dbHost = 'vps42922.inmotionhosting.com';
+// $dbHost = 'localhost';
 $dbName = 'boxgra6_cali';
 $dbUser = 'boxgra6_sd';
 $dbPass = 'Real_estate650$';
@@ -45,7 +45,7 @@ try {
 
     // Dynamically build the query depending on what parameters have been given
     $stmt = "SELECT 
-            id, L_Address, L_Zip, L_City, L_State, L_SystemPrice, ListAgentFullName, LO1_OrganizationName, L_Photos, LotSizeSquareFeet
+            id, L_Address, L_Zip, L_City, L_State, L_SystemPrice, L_Keyword2, LM_Dec_3, ListAgentFullName, LO1_OrganizationName, L_Photos, LotSizeSquareFeet
         FROM rets_property
         WHERE L_Status = :status";
     
@@ -70,6 +70,16 @@ try {
     if (!empty($_GET['max_price'])) {
         $stmt .= " AND L_SystemPrice <= :max_price";
         $params[':max_price'] = $_GET['max_price'];
+    }
+
+    if (!empty($_GET['bed'])) {
+        $stmt .= " AND L_Keyword2 = :bed";
+        $params[':bed'] = $_GET['bed'];
+    }
+
+    if (!empty($_GET['bath'])) {
+        $stmt .= " AND LM_Dec_3 = :bath";
+        $params[':bath'] = $_GET['bath'];
     }
 
     $stmt .= " ORDER BY ListingContractDate DESC LIMIT 10";
@@ -100,6 +110,8 @@ try {
             "full_addr" => $row["L_Address"] . ", " . $row["L_City"] . ", " . $row["L_State"] . ", " . $row["L_Zip"],
             "price" => number_format((float)$row["L_SystemPrice"], 2, '.', ','),
             "sqft" => $row["LotSizeSquareFeet"],
+            "bed" => $row["L_Keyword2"],
+            "bath" => $row["LM_Dec_3"],
             "agent" => $row["ListAgentFullName"],
             "organization" => $row["LO1_OrganizationName"],
             "display_img" => $first_photo,
