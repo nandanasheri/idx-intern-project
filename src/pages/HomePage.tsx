@@ -25,6 +25,7 @@ interface Filters {
 const HomePage: React.FC = () => {
   const [results, setResults] = useState<Property[]>([]);
   const [showFilterModal, setShowFilterModal] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const [filters, setFilters] = useState<Filters>({
     city: "",
     zipcode: "",
@@ -39,6 +40,33 @@ const HomePage: React.FC = () => {
       ...prev,
       [name]: value
     }));
+  };
+
+  const handleQuickSearch = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!searchQuery.trim()) return;
+
+    console.log("Quick searching for:", searchQuery);
+
+    const baseUrl = "http://localhost:3001/api/search";
+    const params = new URLSearchParams();
+    params.append("q", searchQuery);
+
+    const queryUrl = `${baseUrl}?${params.toString()}`;
+    console.log("Query URL:", queryUrl);
+
+    try {
+      const response = await fetch(queryUrl);
+      const jsonData = await response.json();
+      
+      console.log("Raw JSON Data:", jsonData);
+      
+      const properties = jsonData.data || jsonData;
+      setResults(properties);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      setResults([]);
+    }
   };
 
   const handleSearch = async (e: React.FormEvent) => {
@@ -72,6 +100,8 @@ const HomePage: React.FC = () => {
     }
   };
 
+
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary via-purple-600 to-primary-light">
       {/* Hero Section */}
@@ -82,12 +112,34 @@ const HomePage: React.FC = () => {
         <p className="text-xl mb-8 opacity-95">
           Search thousands of properties across the Golden State
         </p>
-        <button 
-          onClick={() => setShowFilterModal(true)}
-          className="bg-white text-primary border-none px-10 py-4 text-lg font-semibold rounded-full cursor-pointer transition-all duration-300 shadow-lg hover:-translate-y-0.5 hover:shadow-xl"
-        >
-          🔍 Open Search Filters
-        </button>
+        
+        {/* Search Bar and Filters Button */}
+        <form onSubmit={handleQuickSearch} className="max-w-3xl mx-auto">
+          <div className="flex gap-3 items-center">
+            <div className="flex-1 flex items-center bg-white rounded-full shadow-lg overflow-hidden">
+              <input
+                type="text"
+                placeholder="Search by city (e.g., Sacramento, Oakland, San Jose...)"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="flex-1 px-6 py-4 text-lg border-none outline-none text-gray-800"
+              />
+              <button 
+                type="submit"
+                className="bg-primary text-white border-none px-6 py-4 text-2xl cursor-pointer transition-all duration-300 hover:bg-primary-dark"
+              >
+                🔍
+              </button>
+            </div>
+            <button 
+              type="button"
+              onClick={() => setShowFilterModal(true)}
+              className="bg-purple-800 text-white border-none px-8 py-4 text-lg font-semibold rounded-full cursor-pointer transition-all duration-300 shadow-lg hover:-translate-y-0.5 hover:shadow-xl whitespace-nowrap"
+            >
+              ⚙️ Filters
+            </button>
+          </div>
+        </form>
       </div>
 
       {/* Results Section */}
