@@ -2,20 +2,95 @@
 {
     border: 1px solid #ddd;
     border-radius: 10px;
-    padding: 1rem;
-    width: 250px;
+    padding: 0;
+    width: 100%;
+    max-width: 350px;
     text-align: left;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+    overflow: hidden;
+    background: white;
 }
 
-.property-card img
+.property-card:hover
+{
+    transform: translateY(-5px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.property-card .property-image
 {
     width: 100%;
-    border-radius: 10px;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 0;
+    margin-bottom: 0;
+}
+
+.property-card .property-details
+{
+    padding: 1rem;
+}
+
+.property-card .property-address
+{
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 0 0 0.5rem 0;
+    color: #333;
+}
+
+.property-card .property-location
+{
+    color: #666;
+    margin: 0 0 0.5rem 0;
+    font-size: 0.95rem;
+}
+
+.property-card .property-price
+{
+    font-weight: bold;
+    font-size: 1.4rem;
+    color: #ee8bc8;
+    margin: 0.5rem 0;
+}
+
+.property-card .property-info
+{
+    margin: 1rem 0;
+    padding: 0.75rem;
+    background-color: #f8f8f8;
+    border-radius: 5px;
+}
+
+.property-card .property-info p
+{
+    margin: 0.25rem 0;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.property-card .property-sqft
+{
     margin-bottom: 0.5rem;
 }
 
-.property-card .price
+.property-card .property-full-address
 {
-    font-weight: bold;
-    color: #ee8bc8;
+    font-size: 0.85rem;
+    color: #777;
+}
+
+.property-card .property-agent
+{
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
+}
+
+.property-card .property-agent p
+{
+    margin: 0.25rem 0;
+    font-size: 0.85rem;
+    color: #666;
 }

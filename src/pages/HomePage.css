@@ -2,9 +2,23 @@
 {
     text-align: center;
     margin-top: 4rem;
+    padding: 0 2rem;
 }
 
 .home-container h1
 {
     margin-bottom: 1rem;
+}
+
+.results-section
+{
+    margin-top: 3rem;
+    text-align: left;
+}
+
+.results-section h2
+{
+    margin-bottom: 1.5rem;
+    text-align: center;
+    color: #333;
 }

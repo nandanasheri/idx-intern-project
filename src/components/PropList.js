@@ -6,8 +6,8 @@ function PropList({properties})
 {
     return(
         <div className="property-list">
-            {properties.map((property,index) =>
-                (<PropCard key={index} property={property}/>
+            {properties.map((property) =>
+                (<PropCard key={property.id} property={property}/>
             ))}
         </div>
     );
