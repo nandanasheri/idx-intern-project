@@ -3,12 +3,11 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import NavBar from "./components/NavBar";
 import HomePage from "./pages/HomePage";
 import Footer from "./components/Footer";
-import "./App.css";
 
 const App: React.FC = () => {
   return (
     <Router>
-      <div className="app-container">
+      <div className="flex flex-col min-h-screen">
         <NavBar />
         <Routes>
           <Route path="/" element={<HomePage />} />

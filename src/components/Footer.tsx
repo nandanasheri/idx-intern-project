@@ -1,10 +1,9 @@
 import React from "react";
-import "./Footer.css";
 
 const Footer: React.FC = () => {
   return (
-    <footer className="footer">
-      <p>© IDX Exchange. All rights reserved.</p>
+    <footer className="bg-gradient-to-r from-primary to-primary-light text-white text-center py-8 mt-auto">
+      <p className="m-0 text-base opacity-90">© IDX Exchange. All rights reserved.</p>
     </footer>
   );
 };

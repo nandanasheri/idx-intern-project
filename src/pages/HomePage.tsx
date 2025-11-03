@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "./HomePage.css";
 
 interface Property {
   id: string;
@@ -74,46 +73,65 @@ const HomePage: React.FC = () => {
   };
 
   return (
-    <div className="home-page">
-      <div className="hero-section">
-        <h1>Find Your Dream Home in California</h1>
-        <p>Search thousands of properties across the Golden State</p>
+    <div className="min-h-screen bg-gradient-to-br from-primary via-purple-600 to-primary-light">
+      {/* Hero Section */}
+      <div className="text-center px-8 py-16 text-white">
+        <h1 className="text-5xl mb-4 font-bold drop-shadow-lg">
+          Find Your Dream Home in California
+        </h1>
+        <p className="text-xl mb-8 opacity-95">
+          Search thousands of properties across the Golden State
+        </p>
         <button 
-          className="filter-button"
           onClick={() => setShowFilterModal(true)}
+          className="bg-white text-primary border-none px-10 py-4 text-lg font-semibold rounded-full cursor-pointer transition-all duration-300 shadow-lg hover:-translate-y-0.5 hover:shadow-xl"
         >
           🔍 Open Search Filters
         </button>
       </div>
 
+      {/* Results Section */}
       {results.length > 0 && (
-        <div className="results-container">
-          <h2>Found {results.length} Properties</h2>
-          <div className="property-grid">
+        <div className="bg-white min-h-[50vh] px-8 py-12 rounded-t-[30px] mt-8">
+          <h2 className="text-center mb-8 text-gray-800 text-3xl font-bold">
+            Found {results.length} Properties
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-[1400px] mx-auto">
             {results.map((property) => (
-              <div key={property.id} className="property-card">
+              <div 
+                key={property.id} 
+                className="bg-white rounded-xl overflow-hidden shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
+              >
                 <img 
                   src={property.display_img || "https://via.placeholder.com/400x250?text=No+Image"} 
                   alt={property.address}
-                  className="property-image"
+                  className="w-full h-56 object-cover"
                 />
-                <div className="property-details">
-                  <h3 className="property-address">{property.address}</h3>
-                  <p className="property-location">
+                <div className="p-6">
+                  <h3 className="text-xl font-semibold mb-2 text-gray-800">
+                    {property.address}
+                  </h3>
+                  <p className="text-gray-600 mb-4 text-sm">
                     {property.city}, {property.state} {property.zipcode}
                   </p>
-                  <p className="property-price">${property.price}</p>
-                  <div className="property-info">
-                    <div className="info-item">
+                  <p className="text-2xl font-bold text-primary my-4">
+                    ${property.price}
+                  </p>
+                  <div className="bg-gray-50 p-4 rounded-lg my-4">
+                    <div className="mb-2 text-sm text-gray-700">
                       <strong>Sq Ft:</strong> {property.sqft ? parseFloat(property.sqft).toLocaleString() : 'N/A'}
                     </div>
-                    <div className="info-item">
+                    <div className="text-xs text-gray-600">
                       <strong>Full Address:</strong> {property.full_addr}
                     </div>
                   </div>
-                  <div className="property-agent">
-                    <p><strong>Agent:</strong> {property.agent}</p>
-                    <p><strong>Organization:</strong> {property.organization}</p>
+                  <div className="border-t border-gray-200 pt-4 mt-4">
+                    <p className="my-1 text-xs text-gray-600">
+                      <strong>Agent:</strong> {property.agent}
+                    </p>
+                    <p className="my-1 text-xs text-gray-600">
+                      <strong>Organization:</strong> {property.organization}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -122,21 +140,30 @@ const HomePage: React.FC = () => {
         </div>
       )}
 
+      {/* Filter Modal */}
       {showFilterModal && (
-        <div className="modal-overlay" onClick={() => setShowFilterModal(false)}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <div className="modal-header">
-              <h2>Search Filters</h2>
+        <div 
+          className="fixed inset-0 bg-black/70 flex justify-center items-center z-[1000] p-4"
+          onClick={() => setShowFilterModal(false)}
+        >
+          <div 
+            className="bg-white rounded-2xl p-8 max-w-[500px] w-full max-h-[90vh] overflow-y-auto shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="m-0 text-gray-800 text-3xl font-bold">Search Filters</h2>
               <button 
-                className="close-button"
                 onClick={() => setShowFilterModal(false)}
+                className="bg-transparent border-none text-2xl cursor-pointer text-gray-400 transition-colors duration-200 p-0 w-10 h-10 flex items-center justify-center hover:text-gray-800"
               >
                 ✕
               </button>
             </div>
-            <form onSubmit={handleSearch} className="filter-form">
-              <div className="form-group">
-                <label htmlFor="city">City</label>
+            <form onSubmit={handleSearch} className="flex flex-col gap-5">
+              <div className="flex flex-col">
+                <label htmlFor="city" className="mb-2 text-gray-600 font-semibold text-sm">
+                  City
+                </label>
                 <input 
                   type="text"
                   id="city"
@@ -144,10 +171,13 @@ const HomePage: React.FC = () => {
                   placeholder="e.g., Sacramento, Oakland"
                   value={filters.city}
                   onChange={handleInputChange}
+                  className="p-3 border-2 border-gray-200 rounded-lg text-base transition-colors duration-200 focus:outline-none focus:border-primary"
                 />
               </div>
-              <div className="form-group">
-                <label htmlFor="zipcode">Zipcode</label>
+              <div className="flex flex-col">
+                <label htmlFor="zipcode" className="mb-2 text-gray-600 font-semibold text-sm">
+                  Zipcode
+                </label>
                 <input 
                   type="text"
                   id="zipcode"
@@ -155,10 +185,13 @@ const HomePage: React.FC = () => {
                   placeholder="e.g., 94601"
                   value={filters.zipcode}
                   onChange={handleInputChange}
+                  className="p-3 border-2 border-gray-200 rounded-lg text-base transition-colors duration-200 focus:outline-none focus:border-primary"
                 />
               </div>
-              <div className="form-group">
-                <label htmlFor="address">Address</label>
+              <div className="flex flex-col">
+                <label htmlFor="address" className="mb-2 text-gray-600 font-semibold text-sm">
+                  Address
+                </label>
                 <input 
                   type="text"
                   id="address"
@@ -166,11 +199,14 @@ const HomePage: React.FC = () => {
                   placeholder="Street address"
                   value={filters.address}
                   onChange={handleInputChange}
+                  className="p-3 border-2 border-gray-200 rounded-lg text-base transition-colors duration-200 focus:outline-none focus:border-primary"
                 />
               </div>
-              <div className="form-row">
-                <div className="form-group">
-                  <label htmlFor="min_price">Min Price</label>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="flex flex-col">
+                  <label htmlFor="min_price" className="mb-2 text-gray-600 font-semibold text-sm">
+                    Min Price
+                  </label>
                   <input 
                     type="number"
                     id="min_price"
@@ -178,10 +214,13 @@ const HomePage: React.FC = () => {
                     placeholder="Min"
                     value={filters.min_price}
                     onChange={handleInputChange}
+                    className="p-3 border-2 border-gray-200 rounded-lg text-base transition-colors duration-200 focus:outline-none focus:border-primary"
                   />
                 </div>
-                <div className="form-group">
-                  <label htmlFor="max_price">Max Price</label>
+                <div className="flex flex-col">
+                  <label htmlFor="max_price" className="mb-2 text-gray-600 font-semibold text-sm">
+                    Max Price
+                  </label>
                   <input 
                     type="number"
                     id="max_price"
@@ -189,10 +228,14 @@ const HomePage: React.FC = () => {
                     placeholder="Max"
                     value={filters.max_price}
                     onChange={handleInputChange}
+                    className="p-3 border-2 border-gray-200 rounded-lg text-base transition-colors duration-200 focus:outline-none focus:border-primary"
                   />
                 </div>
               </div>
-              <button type="submit" className="search-button">
+              <button 
+                type="submit" 
+                className="bg-gradient-to-r from-primary to-primary-light text-white border-none p-4 text-lg font-semibold rounded-lg cursor-pointer transition-all duration-300 mt-2 hover:-translate-y-0.5 hover:shadow-lg"
+              >
                 Search Properties
               </button>
             </form>
